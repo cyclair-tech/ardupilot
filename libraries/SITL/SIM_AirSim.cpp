@@ -113,7 +113,7 @@ void AirSim::output_rover(const sitl_input& input)
 
 void AirSim::output_rover_full(const sitl_input& input)
 {
-    servo_packet pkt;
+    rover_full_packet pkt;
 
 	for (uint8_t i=0; i<kArduCopterRotorControlCount; i++) {
 		pkt.pwm[i] = 2*((input.servos[i]-1000)/1000.0f - 0.5f);

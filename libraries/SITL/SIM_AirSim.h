@@ -58,6 +58,10 @@ private:
     // rotor control packet sent by Ardupilot
     static const int kArduCopterRotorControlCount = 11;
 
+    struct rover_full_packet {
+		float pwm[kArduCopterRotorControlCount];
+	};
+
     struct servo_packet {
 		uint16_t pwm[kArduCopterRotorControlCount];
 	};
