@@ -38,6 +38,8 @@ AirSim::AirSim(const char *frame_str) :
 {
     if (strstr(frame_str, "-copter")) {
         output_type = OutputType::Copter;
+    } else if (strstr(frame_str, "-roverfull")) {
+        output_type = OutputType::RoverFull;
     } else if (strstr(frame_str, "-rover")) {
         output_type = OutputType::Rover;
     } else {
@@ -109,6 +111,25 @@ void AirSim::output_rover(const sitl_input& input)
     }
 }
 
+void AirSim::output_rover_full(const sitl_input& input)
+{
+    servo_packet pkt;
+
+	for (uint8_t i=0; i<kArduCopterRotorControlCount; i++) {
+		pkt.pwm[i] = 2*((input.servos[i]-1000)/1000.0f - 0.5f);
+	}
+
+	ssize_t send_ret = sock.sendto(&pkt, sizeof(pkt), airsim_ip, airsim_control_port);
+	if (send_ret != sizeof(pkt)) {
+		if (send_ret <= 0) {
+			printf("Unable to send servo output to %s:%u - Error: %s, Return value: %ld\n",
+                   airsim_ip, airsim_control_port, strerror(errno), (long)send_ret);
+		} else {
+			printf("Sent %ld bytes instead of %lu bytes\n", (long)send_ret, (unsigned long)sizeof(pkt));
+		}
+	}
+}
+
 /*
     Wrapper function to send servo output
 */
@@ -121,6 +142,10 @@ void AirSim::output_servos(const sitl_input& input)
 
     case OutputType::Rover:
         output_rover(input);
+        break;
+
+    case OutputType::RoverFull:
+        output_rover_full(input);
         break;
     }
 }

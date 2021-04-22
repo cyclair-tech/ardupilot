@@ -45,7 +45,8 @@ public:
 private:
     enum class OutputType {
         Copter = 1,
-        Rover = 2
+        Rover = 2,
+        RoverFull = 3
     } output_type;
 
     // Control packet for Rover
@@ -79,6 +80,7 @@ private:
 
     void output_copter(const sitl_input& input);
     void output_rover(const sitl_input& input);
+    void output_rover_full(const sitl_input& input);
     // Wrapper function over the above 2 output methods
     void output_servos(const sitl_input& input);
 
