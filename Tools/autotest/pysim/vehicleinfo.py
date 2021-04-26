@@ -295,7 +295,7 @@ class VehicleInfo(object):
             "airsim-roverfull": {
                 "waf_target": "bin/ardurover",
                 "default_params_filename": ["default_params/rover.parm",
-                                            "default_params/airsim-rover.parm"],
+                                            "default_params/airsim-roverfull.parm"],
             },
             "calibration": {
                 "extra_mavlink_cmds": "module load sitl_calibration;",
